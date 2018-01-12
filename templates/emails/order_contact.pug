@@ -1,0 +1,9 @@
+html
+	head
+	body
+		h1 Hi %recipient.firstName%,
+		p.text-larger An enquiry was just submitted to #{brand}:
+		if enquiry.message
+			.text-larger !{enquiry.message.html}
+		p.text-muted Sent #{enquiry._.createdAt.format()}
+		p &nbsp;

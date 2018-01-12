@@ -1,0 +1,55 @@
+extends ../layouts/default
+
+block intro
+	script(src="/js/jquery/jquery-2.1.4.min.js")
+	.container
+		h1 Contact Us
+
+block content
+	.container
+		if enquirySubmitted
+			h3 Thanks for getting in touch.
+		else
+			.row: .col-sm-8.col-md-6
+				form(method='post' id='formularz')
+					input(type='hidden', name='action', value='contact')
+					.form-group(class=validationErrors.name ? 'has-error' : null)
+						if loggedIn
+							input(type='hidden', name='name.full', value=user.name.first+' '+ user.name.last).form-control
+						else
+							label Name
+							input(type='text', name='name.full', value=formData['name.full']).form-control
+					.form-group(class=validationErrors.email ? 'has-error' : null)
+						if loggedIn
+							input(type='hidden', name='email', value=user.email).form-control
+						else
+							label Email
+							input(type='email', name='email', value=formData.email).form-control
+					.form-group
+						label Phone
+						input(type='text', name='phone', value=formData.phone, laceholder='(optional)').form-control
+					.form-group(class=validationErrors.enquiryType ? 'has-error' : null id='pole')
+						label What are you contacting us about?
+						select(name='enquiryType').form-control
+							option(value='') (select one)
+							each type in enquiryTypes
+								option(value=type.value, selected=formData.enquiryType == type.value)= type.label
+						button(class="btn btn-success add-more" type="button" id='zam') Add
+							script.
+									$("#zam").click(function(e){
+										//e.preventDefault();
+										var $newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv');
+										alert('hi');
+										$('#formularz').append('<textarea name="instructions">text</textarea>');
+										$('#formularz').append(
+										'<label>Preference</label><select class="custom-select my-1 mr-sm-2" name="orderId" id="zamId"><option selected>Choose...</option></select>'
+											);
+										$.each(orders, function (i, order) {
+											$('#zamId').append( '<option value="'+order._id+'">'+order._id+'</option>' );
+											});
+									});
+					.form-group(class=validationErrors.message ? 'has-error' : null)
+						label Message
+						textarea(name='message', placeholder='Leave us a message...' rows=4).form-control= formData.message
+					.form-actions
+						button(type='submit').btn.btn-primary Send
