@@ -18,17 +18,18 @@ exports = module.exports = function (req, res) {
 	locals.enquirySubmitted = false;
 	locals.user = req.user;
 
-	//view.on('init', function(next){
-		if(req.user.canAccessClients){ locals.loggedIn = false; }
-		else if(!req.user.canAccessClients){ locals.loggedIn = true; }
+	 view.on('init', function (next) {
+		if (req.user.canAccessClients) { locals.loggedIn = false; }
+		else if (!req.user.canAccessClients) { locals.loggedIn = true; }
 		else locals.loggedIn = false;
-		if (locals.loggedIn){
+		if (locals.loggedIn) {
 			var q = Order.model.find().where('client', req.user.id);
 		}
-		q.exec(function(err, results) {
+		q.exec(function (err, results) {
 			locals.orders = results;
 			console.log(locals.orders);
-	//});
+			next(err);
+	 });
 	});
 
 	// On POST requests, add the Enquiry item to the database

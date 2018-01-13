@@ -12,7 +12,12 @@ block content
 		else
 			.row: .col-sm-8.col-md-6
 				form(method='post' id='formularz')
+					input(type='hidden' value='orders' id='odId')
 					input(type='hidden', name='action', value='contact')
+					table(hidden id='zamowienia')
+						tbody
+							each order in orders	
+								td(class='numerki') #{order._id}
 					.form-group(class=validationErrors.name ? 'has-error' : null)
 						if loggedIn
 							input(type='hidden', name='name.full', value=user.name.first+' '+ user.name.last).form-control
@@ -30,24 +35,36 @@ block content
 						input(type='text', name='phone', value=formData.phone, laceholder='(optional)').form-control
 					.form-group(class=validationErrors.enquiryType ? 'has-error' : null id='pole')
 						label What are you contacting us about?
-						select(name='enquiryType').form-control
-							option(value='') (select one)
-							each type in enquiryTypes
-								option(value=type.value, selected=formData.enquiryType == type.value)= type.label
-						button(class="btn btn-success add-more" type="button" id='zam') Add
+						div(class="input-group")
+							select(name='enquiryType').form-control
+								option(value='') (select one)
+								each type in enquiryTypes
+									option(value=type.value, selected=formData.enquiryType == type.value)= type.label
+							span(class="input-group-btn")
+								button(class="btn btn-default add-more" type="button" id='zam') +
 							script.
-									$("#zam").click(function(e){
+								var count = 0;
+								var orId = [];
+								$('.numerki').each(function () {
+									orId.push($(this).text());									
+								});
+								$("#zam").click(function(e){
+									if(count==0) {
 										//e.preventDefault();
-										var $newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv');
-										alert('hi');
-										$('#formularz').append('<textarea name="instructions">text</textarea>');
-										$('#formularz').append(
-										'<label>Preference</label><select class="custom-select my-1 mr-sm-2" name="orderId" id="zamId"><option selected>Choose...</option></select>'
-											);
-										$.each(orders, function (i, order) {
-											$('#zamId').append( '<option value="'+order._id+'">'+order._id+'</option>' );
-											});
-									});
+										//alert('hi');
+										//alert(orId);
+										$('#pole').after(
+												'<label>Order </label><select class="custom-select my-1 mr-sm-2" name="orderId" id="zamId"><option selected>Choose...</option></select>'
+										);
+										$.each(orId, function (i, order) {
+											//alert(order);
+											$('#zamId').append('<option value=' + order + '>' + order + '</option>');
+										});
+										count++;
+									}
+									else if(count>1){ $('#zamId').remove(); count ==0;}
+									
+								});
 					.form-group(class=validationErrors.message ? 'has-error' : null)
 						label Message
 						textarea(name='message', placeholder='Leave us a message...' rows=4).form-control= formData.message

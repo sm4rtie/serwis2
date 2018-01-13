@@ -11,7 +11,7 @@ Order.add({
   client: {type: Types.Relationship, ref: 'User', refPath: '_id', many: false, filters: { isEmployee: false }},
 	dateStart: { type: Date, default: Date.now },
 	//product: { type: Types.Name, required: true},
-  employee: {type: Types.Relationship, ref: 'User', refPath: '_id', many: false, required: true, filters: { isEmployee: true }, initial: false},
+  employee: {type: Types.Relationship, ref: 'User', refPath: '_id', many: false, required: false, filters: { isEmployee: true }, initial: false},
   state: { type: Types.Select, options: 'Przyjete do realizacji, W realizacji, Ukonczono, Odebrano', default: 'Przyjete do realizacji' },
   dateEnd: {type: Date, required: false},
   product: {type: String},
