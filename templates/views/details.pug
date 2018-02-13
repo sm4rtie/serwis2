@@ -1,0 +1,23 @@
+extends ../layouts/default
+block intro
+  each detail in details
+    div#tabela
+      input(id='myInput' type='text' name='myInput' placeholder='Search...')
+      table(class ='table-sm table-hover')
+        tbody(id='myTable')
+          tr
+          td #{detail.date}
+          td #{detail.state}
+          td #{detail.comment}
+          td #{detail.city}
+
+  .container
+    .row: .col-sm-8.col-md-6
+      form(method='post' id='formularz')
+        input(type='hidden', name='action', value='order')
+        input(type='hidden', name='orderId', value=details[0].orderId)
+        .form-group(class=validationErrors.message ? 'has-error' : null)
+          label Message
+          textarea(name='message', placeholder='Leave us a message...' rows=4).form-control= formData.message
+          .form-actions
+          button(type='submit').btn.btn-primary Send

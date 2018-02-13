@@ -1,0 +1,52 @@
+extends ../../layouts/default
+block intro
+  script(src="/js/jquery/jquery-2.1.4.min.js")
+
+  script.
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  .container
+    div(id="accordion" class="panel-group" aria-multiselectable="true")
+      div(class="panel panel-default")
+        div(class="panel-heading")
+          h5(class="panel-title")
+            a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Users
+        div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
+          div(class="panel-body")
+            div(class='input-group')
+              input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
+              table(class ='table-sm table-hover')
+                tbody(id='myTable')
+                  each user in users
+                    tr
+                    td #{user._id}
+                    td #{user.name.full}
+                    td #{user.email}
+        div(class="panel panel-default")
+          div(class="panel-heading")
+            h5(class="panel-title")
+              a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo") Add User
+          div(id="collapseTwo" class="panel-collapse collapse")
+            div(class="panel-body")
+              form(method="post" id="newUser")
+                input(type='hidden', name='action', value='newUser')
+                .form-group
+                  label Name(Full)
+                  input(type='text', id='name', class="form-control", name='name')
+                .form-group
+                  label email
+                  input(type='email', id='email', class='form-control', name='email')
+                .form-group
+                  label Password
+                  input(type='password', id='password', class="form-control", name='password')
+                .form-group
+                  label Confirm Password
+                  input(type='password', id='passwordConfirm', class="form-control", name='passwordConfirm')
+                .form-actions
+                  button(type='submit').btn.btn-primary Send

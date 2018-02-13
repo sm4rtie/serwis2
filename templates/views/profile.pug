@@ -2,67 +2,98 @@ extends ../layouts/default
 
 
 block intro
-  script(src="/js/jquery/jquery-2.1.4.min.js")
-  .container
-    h1 Hello #{users.name.first}
-    script.
-      $(document).ready(function(){
-      $("#ordersBtn").click(function(){
-        $("#tabela").slideToggle("slow");
-      });
-      });
-    button(class='btn btn-primary' id='ordersBtn') Orders
-    a(class='btn btn-primary' href='/account') Account
-    a(class='btn btn-primary' href='/contact') Contact
-    script.
-      $(document).ready(function(){
-      $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-      });
+	script(src="/js/jquery/jquery-2.1.4.min.js")
+	.container
+		h1 Hello #{users.name.first}
+		script.
+			$(document).ready(function () {
+				$("#tabela").hide();
+				$("#account").hide();
+				$("#ordersBtn").click(function () {
+					$("#tabela").slideToggle("slow");
+				});
+				$("#accountBtn").click(function () {
+					$("#account").slideToggle("slow");
+				});
+			});
+		button(class='btn btn-primary' id='ordersBtn') Orders
+		button(class='btn btn-primary' id='accountBtn') Account
+		//a(class='btn btn-primary' href='/contact') Contact
+		script.
+			$(document).ready(function () {
+				$("#myInput").on("keyup", function () {
+					var value = $(this).val().toLowerCase();
+					$("#myTable tr").filter(function () {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					});
+				});
+			});
 
 
 
-    div#tabela
-      input(id='myInput' type='text' name='myInput' placeholder='Search...').form-control
-      table(class ='table-hover')
-        thead
-          tr
-            th(hidden) ID
-            th Status
-            th Received
-            th Ready
-            th Product
-            th Comment
-        tbody(id='myTable')
-          each order in orders
-            tr
-            td(hidden) #{order._id}
-            td #{order.state}
-            td #{order.dateStart}
-            td #{order.dateEnd}
-            td #{order.product}
-            td #{order.comment}
+		div#tabela
+			input(id='myInput' type='text' name='myInput' placeholder='Search...')
+			table(class ='table-hover')
+				thead
+					tr
+						th ID
+						th Status
+						th Received
+						th Ready
+						th Product
+						th Comment
+				tbody(id='myTable')
+					each order in orders
+						tr
+						td
+							a(href='/details/'+ order._id) #{order._id}
+						td #{order.state}
+						td #{order.dateStart}
+						td #{order.dateEnd}
+						td #{order.product}
+						td #{order.comment}
+		form(method='post' id='account')
+			input(type='hidden', name='action', value='account')
+			.form-group
+				label Name
+				input(type='text', id='name', class="form-control", name='name', value=users.name.first)
+			.form-group
+				label Last Name
+				input(type='text', class="form-control", id='lastName', name='lastName', value=users.name.last)
+			.form-group
+				label Phone
+				input(type='text', id='phone',class="form-control", name='phone', placeholder='111222333')
+			.form-group
+				label Email
+				input(type='email', id='email',class="form-control", name='email', value=users.email)
+			.form-group
+				label Password
+				input(type='password', id='password',class="form-control", name='password')
+			.form-group
+				label New Password
+				input(type='password', id='newPassword',class="form-control", name='newPassword')
+			.form-group
+				label Confirm New Password
+				input(type='password', id='confirmPassword',class="form-control", name='confirmPassword')
+			.form-actions
+				button(type='submit').btn.btn-primary Send
 
-      script.
-        $('tr').not(':first').hover( function() {
-          $(this).append("<button class='btn btn-primary btn-xs' id='cntBtn'>Contact</button>");
-          var order_id = $(this).find("td:first").html();
-          $('#cntBtn').click(function(){ window.location = "/" + order_id});
-          //$('#cntBtn').click(function(){ $("cntBtn").attr("href", order_id) });
-        }, function(){
-          $("#cntBtn").remove();
-        });
+			//script.
+				$('tr').not(':first').hover( function() {
+				$(this).append("<button class='btn btn-primary btn-xs' id='cntBtn'>Contact</button>");
+				var order_id = $(this).find("td:first").html();
+				$('#cntBtn').click(function(){ window.location = "/" + order_id});
+				//$('#cntBtn').click(function(){ $("cntBtn").attr("href", order_id) });
+			//  }, function(){
+			//	$("#cntBtn").remove();
+			//  });
 
 
 block content
-  .container
-    if user.canAccessKeystone
-      h3 Jesteś zalogowany jako admin.
-    else if user.canAccessClients
-      h3 Jesteś zalogowany jako pracownik.
-    else
-      h3 Ur profile.
+	.container
+		if user.canAccessKeystone
+			h3 Jesteś zalogowany jako admin.
+		else if user.canAccessClients
+			h3 Jesteś zalogowany jako pracownik.
+		else
+			h3 Ur profile.

@@ -1,0 +1,32 @@
+extends ../layouts/default
+
+block intro
+	script(src="/js/jquery/jquery-2.1.4.min.js")
+	.container
+		h1 Contact Us
+
+block content
+	.container
+			.row: .col-sm-8.col-md-6
+				form(method='post' id='formularz')
+					input(type='hidden' value='{#userData._id}', id='odId')
+					input(type='hidden', name='action', value='account')
+					.form-group(class=validationErrors.name ? 'has-error' : null)
+						label Name
+						input(type='text', name='name.first', value='userData.name').form-control
+					.form-group(class=validationErrors.name ? 'has-error' : null)
+						label Surname
+						input(type='text', name='name.last', value=formData['name.last']).form-control
+					.form-group(class=validationErrors.password ? 'has-error' : null)
+						label Current password
+						input(type='password', name='password', value=formData['password']).form-control
+					.form-group(class=validationErrors.newPassword ? 'has-error' : null)
+						label Enter new password
+						input(type='password', name='newPassword', value=formData['newPassword']).form-control
+					.form-group(class=validationErrors.confirmNewPassword ? 'has-error' : null)
+						label Confirm new password
+						input(type='password', name='confirmNewPassword', value=formData['confirmNewPassword']).form-control
+					.form-actions
+						button(type='submit').btn.btn-primary Send
+						
+						

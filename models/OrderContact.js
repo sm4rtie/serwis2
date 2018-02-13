@@ -51,7 +51,7 @@ OrderContact.schema.methods.sendNotificationEmail = function (callback) {
 			templateName: 'order_contact',
 			transport: 'mailgun',
 		}).send({
-			to: employee,
+			to: 'marta.jareckaa@gmail.com',
 			from: {
 				name: 'Serwis',
 				email: 'contact@serwis.com',

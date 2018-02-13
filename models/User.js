@@ -12,8 +12,8 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
 	password: { type: Types.Password, initial: true, required: true },
 }, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
-	isEmployee: { type: Boolean, label: 'Can access Clients'},
+	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true, default: false },
+	isEmployee: { type: Boolean, label: 'Can access Clients', default: false },
 	//isClient: { type: Boolean, label: 'Can access Dashboard' },
 });
 

@@ -46,10 +46,11 @@ keystone.set('routes', require('./routes'));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	enquiries: 'enquiries',
-	users: 'users',
-	orders: 'orders',
+		users: 'users',
+	content: ['enquiries', 'orders',]
 });
+keystone.set('signin url', '/contact');
+keystone.set('signin redirect', '/profile');
 
 // Start Keystone to connect to your database and initialise the web server
 

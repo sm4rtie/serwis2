@@ -18,7 +18,7 @@ exports = module.exports = function (req, res) {
 	locals.enquirySubmitted = false;
 	locals.user = req.user;
 
-	 view.on('init', function (next) {
+	view.on('init', function (next) {
 		if (req.user.canAccessClients) { locals.loggedIn = false; }
 		else if (!req.user.canAccessClients) { locals.loggedIn = true; }
 		else locals.loggedIn = false;
@@ -29,7 +29,7 @@ exports = module.exports = function (req, res) {
 			locals.orders = results;
 			console.log(locals.orders);
 			next(err);
-	 });
+		});
 	});
 
 	// On POST requests, add the Enquiry item to the database
@@ -40,7 +40,7 @@ exports = module.exports = function (req, res) {
 
 		updater.process(req.body, {
 			flashErrors: true,
-			fields: 'name, email, phone, enquiryType, message',
+			fields: 'name, email, phone, enquiryType, orderId, message',
 			errorMessage: 'There was a problem submitting your enquiry:',
 		}, function (err) {
 			if (err) {

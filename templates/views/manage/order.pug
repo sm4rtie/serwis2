@@ -1,0 +1,71 @@
+extends ../../layouts/default
+
+block intro
+	.container
+		div(id="accordion" class="panel-group" aria-multiselectable="true")
+			div(class="panel panel-default")
+				div(class="panel-heading")
+					h5(class="panel-title")
+						a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Order ##{order._id}
+				div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
+					div(class="panel-body")
+						form(method='post' id='account')
+							input(type='hidden', name='action', value='orderUpdate')
+							.form-group
+								label Client
+								input(type='text', id='client', class="form-control", name='client', value=user.name.full)
+							.form-group
+								label Damage
+								input(type='text', id='damage', class="form-control", name='damage', value=order.damage)
+							.form-group(class=validationErrors.status ? 'has-error' : null id='pole')
+								label State
+								div(class="input-group")
+									select(name='status' value=order.state).form-control
+										option(selected=order.state)= order.state
+											each state in states
+												if(state.label.toLowerCase() !== order.state.toLowerCase())
+													option(value=state.value, selected=formData.status == state.value)= state.label
+							.form-group
+								label Product
+								input(type='text', id='product',class="form-control", name='product', placeholder='product', value=order.product)
+							.form-actions
+							button(type='submit').btn.btn-primary Send
+			div(class="panel panel-default")
+				div(class="panel-heading")
+					h5(class="panel-title")
+						a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo") Order details
+				div(id="collapseTwo" class="panel-collapse collapse" aria-labelledby="headingTwo")
+					div(class="panel-body")
+						table(class ='table-sm table-hover')
+							tbody(id='myTable')
+								each detail in details
+									tr
+									td #{detail.date}
+									td #{detail.state}
+									td #{detail.comment}
+									td #{detail.city}
+
+						form(method='post' id='newOrderDetails')
+							input(type='hidden', name='action', value='newOrderDetails')
+							input(type='hidden' name='orderId' value=order._id)
+							.form-group
+								label Date
+								input(type='date', id='date', class="form-control", name='date')
+							.form-group
+								label Comment
+								input(type='text', id='comment', class="form-control", name='comment')
+							.form-group(class=validationErrors.status ? 'has-error' : null id='pole')
+								label State
+								div(class="input-group")
+									select(name='state').form-control
+										option(selected=' ') (choose one)
+											each state in statesDetails
+												if(state.label.toLowerCase() !== order.state.toLowerCase())
+													option(value=state.value, selected=formData.status == state.value)= state.label
+							.form-group
+								label City
+								input(type='text', id='city',class="form-control", name='city')
+							.form-group
+								input(type='hidden', value=0 ,class="form-control", name='version')
+							.form-actions
+								button(type='submit').btn.btn-primary Send

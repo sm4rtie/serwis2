@@ -36,8 +36,17 @@ exports = module.exports = function (app) {
 	// Views
 	app.get('/', routes.views.index);
 	app.all('/contact', routes.views.contact);
-	app.all('/profile',  middleware.requireUser, routes.views.profile);
-	app.all('/:order', middleware.requireUser, routes.views.orderContact);
+	app.all('/profile', middleware.requireUser, routes.views.profile);
+	//app.all('/:order', middleware.requireUser, routes.views.orderContact);
+	app.all('/account', middleware.requireUser, routes.views.account);
+	//app.use('/auth/', forgottenPassword); // routes are mounted on /auth/ auth/forgot, auth/change-password will be added
+	app.all('/details/:orderId', middleware.requireUser, routes.views.orderDetails);
+	app.all('/manage/orders', middleware.requireEmployee, routes.views.manageOrders);
+	app.all('/manage/orders/:orderId', middleware.requireEmployee, routes.views.manageOrder);
+	app.all('/manage/users', middleware.requireEmployee, routes.views.manageUsers);
+
+	//app.post('/details/:orderId', middleware.requireUser, routes.views.orderContact);
+
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

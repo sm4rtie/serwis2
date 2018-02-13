@@ -11,8 +11,7 @@ var _ = require('lodash');
 
 exports.detail = function (req, res, next) {
 	res.locals.details = [
-		'Orders',
-		'Account'
+
 	];
 	next();
 }
@@ -56,6 +55,18 @@ exports.flashMessages = function (req, res, next) {
 exports.requireUser = function (req, res, next) {
 	if (!req.user) {
 		req.flash('error', 'Please sign in to access this page.');
+		res.redirect('/keystone/signin');
+	} else {
+		next();
+	}
+};
+exports.requireEmployee = function (req, res, next) {
+		if (!req.user) {
+			req.flash('error', 'Please sign in to access this page.');
+			res.redirect('/keystone/signin');
+		}
+	else if (!req.user.isEmployee) {
+		req.flash('error', 'You don\'t have permission to view this page.');
 		res.redirect('/keystone/signin');
 	} else {
 		next();
