@@ -1,10 +1,33 @@
 extends ../../layouts/default
 
 block intro
+
   script(src="/js/jquery/jquery-2.1.4.min.js")
+  link(href="/styles/easy-autocomplete.themes.min.css", rel="stylesheet")
+  link(href="/styles/easy-autocomplete.themes.css", rel="stylesheet")
 
   script.
     $(document).ready(function () {
+      $('#table').DataTable();
+      $(function() {
+        var opt = (!{JSON.stringify(users)});
+        console.log(!{JSON.stringify(users)})
+        console.log(opt)
+        var options = {
+          data: opt,
+          getValue: function(element) {
+            return element.name.first + " " + element.name.last;
+          },
+          list: {
+            onSelectItemEvent: function() {
+              var index = $("#autocomplete").getSelectedItemData()._id;
+                $("#client").val(index).trigger("change");
+              }
+            },
+            theme: "custom"
+          };
+          $("#autocomplete").easyAutocomplete(options);
+      });
       $("#myInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#myTable tr").filter(function () {
@@ -12,6 +35,7 @@ block intro
         });
       });
     });
+
   .container
     div(id="accordion" class="panel-group" aria-multiselectable="true")
       div(class="panel panel-default")
@@ -21,17 +45,24 @@ block intro
         div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
           div(class="panel-body")
             div(class='input-group')
-              input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
-              table(id="table" class ='table-sm table-hover')
+              //input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
+              table(id="table" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%")
+                thead(class="thead thead-inverse")
+                  tr
+                    th Order ID
+                    th Admitted
+                    th Client ID
+                    th State
+                    th Product
                 tbody(id='myTable')
                   each order in orders
                     tr
-                    td
-                      a(href='orders/' + order._id) #{order._id}
-                    td #{order.dateStart}
-                    td #{order.client}
-                    td #{order.state}
-                    td #{order.product}
+                      td
+                        a(href='orders/' + order._id) #{order._id}
+                      td #{order.dateStart}
+                      td #{order.client}
+                      td #{order.state}
+                      td #{order.product}
       div(class="panel panel-default")
         div(class="panel-heading")
           h5(class="panel-title")
@@ -42,11 +73,9 @@ block intro
               input(type='hidden', name='action', value='newOrder')
               .form-group
                 label Client
-                div(class="input-group")
-                  select(name='client').form-control
-                    option(selected=' ') (choose one)
-                      each user in users
-                        option(value=user._id, selected=formData.client == user._id)= user.name.full
+                input(id='autocomplete' name='autocomplete' placeholder="Search...")
+              .form-group
+                input(type="hidden", id='client' name='client')
               .form-group
                 label Product
                 input(type='text', id='product', class='form-control', name='product')

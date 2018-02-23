@@ -18,15 +18,26 @@ exports = module.exports = function (req, res) {
 	view.on('init', function (next) {
 		if (req.user.canAccessClients) {
 			var q = User.model.find()
-        .where('isAdmin' || 'isEmployee', false)
+        .where('isAdmin' && 'isEmployee', false)
         .exec(function (err, users) {
 			locals.users = users;
-      console.log(users);
 			next(err);
 
 	});
 }
 });
+/*view.on('get', function(next){
+  if (req.user.canAccessClients) {
+    var q = User.model.find()
+      .where('isAdmin' || 'isEmployee', false)
+      .exec(function (err, users) {
+    console.log(users);
+    return res.json(users);
+
+});
+}
+});*/
+
 view.on('post', { action: 'newUser' }, function (next) {
   //var q = Order.model.findOne().where('_id', req.user.id);
   var UserNew = new User.model();

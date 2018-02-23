@@ -12,19 +12,28 @@ OrderContact.add({
   orderId: { type: Types.Relationship, ref: 'Order', many: false, required: false, initial:false },
 	message: { type: Types.Markdown, required: true, initial:false },
 	createdAt: { type: Date, default: Date.now },
+	response: {type: Types.Textarea, initial: false},
+	responseAt: { type: Date, default: Date.now },
+	read: {type: Types.Boolean, default: false, initial: false},
+	from: {type: Types.Email, initial: false}
 });
 
 OrderContact.schema.pre('save', function (next) {
+	console.log("presave1");
+	if(this.isModified('read')) return next();
+	console.log("presave2");
+	console.log('GOING NEXT');
 	this.wasNew = this.isNew;
-	this.name = this._req_user.name;
-	this.email = this._req_user.email;
 	next();
 });
 
 OrderContact.schema.post('save', function () {
-	if (this.wasNew) {
+	console.log("postsave1");
+	if (this.wasNew || this.isModified) {
 		this.sendNotificationEmail();
 	}
+	console.log("postsave2");
+
 });
 
 OrderContact.schema.methods.sendNotificationEmail = function (callback) {

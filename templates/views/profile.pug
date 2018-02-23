@@ -2,56 +2,48 @@ extends ../layouts/default
 
 
 block intro
+
 	script(src="/js/jquery/jquery-2.1.4.min.js")
-	.container
-		h1 Hello #{users.name.first}
-		script.
-			$(document).ready(function () {
-				$("#tabela").hide();
-				$("#account").hide();
-				$("#ordersBtn").click(function () {
-					$("#tabela").slideToggle("slow");
-				});
-				$("#accountBtn").click(function () {
-					$("#account").slideToggle("slow");
-				});
+	script.
+		$(document).ready(function () {
+			$('#profile').DataTable();
+			$("#account").hide();
+			$("#ordersBtn").click(function () {
+			$("#account").hide();
+
+				$("#tabela").slideToggle("slow");
 			});
-		button(class='btn btn-primary' id='ordersBtn') Orders
-		button(class='btn btn-primary' id='accountBtn') Account
-		//a(class='btn btn-primary' href='/contact') Contact
-		script.
-			$(document).ready(function () {
+			$("#accountBtn").click(function () {
+				$("#tabela").hide();
+				$("#account").slideToggle("slow");
+			});
 				$("#myInput").on("keyup", function () {
 					var value = $(this).val().toLowerCase();
 					$("#myTable tr").filter(function () {
 						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 					});
 				});
-			});
-
-
-
+		});
+	.container
+		button(class='btn btn-primary' id='ordersBtn') Orders
+		button(class='btn btn-primary' id='accountBtn') Edit profile
 		div#tabela
-			input(id='myInput' type='text' name='myInput' placeholder='Search...')
-			table(class ='table-hover')
+			table(id='profile', class='table table-hover')
 				thead
 					tr
 						th ID
 						th Status
 						th Received
-						th Ready
 						th Product
-						th Comment
 				tbody(id='myTable')
 					each order in orders
 						tr
-						td
-							a(href='/details/'+ order._id) #{order._id}
-						td #{order.state}
-						td #{order.dateStart}
-						td #{order.dateEnd}
-						td #{order.product}
-						td #{order.comment}
+							td
+								a(href='/details/'+ order._id) #{order._id}
+							td #{order.state}
+							td #{order.dateStart}
+							td #{order.product}
+
 		form(method='post' id='account')
 			input(type='hidden', name='action', value='account')
 			.form-group
@@ -87,13 +79,3 @@ block intro
 			//  }, function(){
 			//	$("#cntBtn").remove();
 			//  });
-
-
-block content
-	.container
-		if user.canAccessKeystone
-			h3 Jesteś zalogowany jako admin.
-		else if user.canAccessClients
-			h3 Jesteś zalogowany jako pracownik.
-		else
-			h3 Ur profile.

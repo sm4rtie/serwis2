@@ -29,7 +29,7 @@ var updater = newOrderContact.getUpdateHandler(req);
 //console.log(req);
 		updater.process(req.body, {
 			flashErrors: true,
-			fields: 'message, orderId',
+			fields: 'message, orderId, from',
 			errorMessage: 'There was a problem submitting your enquiry:',
 
 		}, function (err) {

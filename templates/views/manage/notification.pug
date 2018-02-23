@@ -1,0 +1,49 @@
+extends ../../layouts/default
+
+block intro
+  script(src="/js/jquery/jquery-2.1.4.min.js")
+  style
+    include ../../../public/styles/inbox.css
+  .container
+    //h4 Order: #{mail.orderId}
+    ul(class="chat")
+      div(class="bg-info")
+        li(class="left clearfix")
+          div(class="chat-body clearfix")
+            div(class="header")
+              h4
+                strong(class="primary-font") Ticket: #{mail.orderId}
+              strong(class="primary-font") From: #{mail.from}
+              small(class="pull-right text-muted") #{mail.createdAt}
+                span(class="glyphicon glyphicon-time")
+            p #{mail.message.md}
+      if(previous)
+        each prev in previous
+          li(class="left clearfix")
+            span(class="glyphicon glyphicon-user")
+            div(class="chat-body clearfix")
+              div(class="header")
+                strong(class="primary-font") #{prev.from}
+                small(class="pull-right text-muted") #{prev.createdAt}
+                  span(class="glyphicon glyphicon-time")
+              p #{prev.message.md}
+            if(prev.response)
+              li(class="left clearfix")
+                span(class="glyphicon glyphicon-envelope")
+                div(class="chat-body clearfix")
+                  div(class="header")
+                    strong(class="primary-font") Me
+                    small(class="pull-right text-muted") #{prev.responseAt}
+                      span(class="glyphicon glyphicon-time")
+                  p #{prev.response}
+    hr
+    div
+      .row: .col-sm-8.col-md-6
+        form(method='post' id='formularz')
+          input(type='hidden', name='action', value='reply')
+          .form-group
+            //(class=validationErrors.message ? 'has-error' : null)
+            label Reply
+            textarea(name='response' rows=4).form-control= formData.response
+          .form-actions
+            button(type='submit').btn.btn-primary Send

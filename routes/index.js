@@ -44,6 +44,12 @@ exports = module.exports = function (app) {
 	app.all('/manage/orders', middleware.requireEmployee, routes.views.manageOrders);
 	app.all('/manage/orders/:orderId', middleware.requireEmployee, routes.views.manageOrder);
 	app.all('/manage/users', middleware.requireEmployee, routes.views.manageUsers);
+	//app.get('/manage/users/clients', middleware.requireEmployee, routes.views.manageUsers.getClients);
+
+	app.all('/manage/notifications', middleware.requireEmployee, routes.views.notifications);
+	app.post('/manage/notifications', middleware.requireEmployee, routes.views.notifications);
+	app.all('/manage/notification/:notificationId', middleware.requireEmployee, routes.views.notification);
+	app.all('/reset-password/:resetPasswordKey', routes.views.resetPassword)
 
 	//app.post('/details/:orderId', middleware.requireUser, routes.views.orderContact);
 

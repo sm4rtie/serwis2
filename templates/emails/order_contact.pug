@@ -4,6 +4,8 @@ html
 		p.text-larger An enquiry was just submitted to #{brand}:
 		if enquiry.message
 			.text-larger !{enquiry.message.html}
+		if enquiry.response
+			p.text-muted #{enquiry.response}	
 		if enquiry.orderId
 			p.text-muted #{enquiry.orderId}
 		p.text-muted Sent #{enquiry._.createdAt.format()}

@@ -35,12 +35,8 @@ exports = module.exports = function (req, res) {
       User.model.find().where('isEmployee' || 'isAdmin', false).exec(function (err, users) {
         locals.users = users;
         next(err);
-
       });
 	});
-
-
-
 });
 
 view.on('post', { action: 'newOrder' }, function (next) {

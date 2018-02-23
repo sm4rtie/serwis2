@@ -1,0 +1,27 @@
+extends ../../layouts/default
+
+block intro
+  script(src="/js/jquery/jquery-2.1.4.min.js")
+
+  .container
+    table(class="table table-hover" id="msg")
+      script.
+        $(document).ready(function() {
+          $(document).on("click", "#msg tbody tr", function() {
+          var id = $(this).find(".cntId").html();
+            console.log("CLICKED " + id);
+            window.location.href = '/manage/notification/' + id;
+          });
+        });
+      tbody
+      each contact in contacts
+        if(!contact.read)
+          tr(style="font-weight:bold")
+            td #{contact.from}
+            td(class="cntId") #{contact._id}
+            td #{contact.createdAt}
+        else
+          tr
+            td #{contact.from}
+            td(class="cntId") #{contact._id}
+            td #{contact.createdAt}

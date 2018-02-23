@@ -4,6 +4,7 @@ block intro
 
   script.
     $(document).ready(function () {
+      $('#users').DataTable();
       $("#myInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#myTable tr").filter(function () {
@@ -20,14 +21,19 @@ block intro
         div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
           div(class="panel-body")
             div(class='input-group')
-              input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
-              table(class ='table-sm table-hover')
+              //input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
+              table(class ='table table-hover' id="users")
+                thead(class="thead thead-inverse")
+                  tr
+                    th ID
+                    th Full Name
+                    th Email
                 tbody(id='myTable')
                   each user in users
                     tr
-                    td #{user._id}
-                    td #{user.name.full}
-                    td #{user.email}
+                      td #{user._id}
+                      td #{user.name.full}
+                      td #{user.email}
         div(class="panel panel-default")
           div(class="panel-heading")
             h5(class="panel-title")
