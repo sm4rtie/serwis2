@@ -29,7 +29,6 @@ exports = module.exports = function (req, res) {
         locals.order = order;
 				OrderContact.model.find().where('orderId', req.params.orderId).sort('-createdAt').exec(function (err, contacts) {
 					locals.contacts = contacts;
-					console.log(contacts);
 					 next(err);
 				});
 		});
@@ -40,7 +39,6 @@ exports = module.exports = function (req, res) {
 		var newOrderContact = new OrderContact.model();
 		//newOrderContact.set({email: 'res.locals.user.email', name: 'res.locals.user.name.first'});
 		//newOrderContact._req_user = req.user;
-		console.log(req.body);
 var updater = newOrderContact.getUpdateHandler(req);
 //console.log(req);
 		updater.process(req.body, {

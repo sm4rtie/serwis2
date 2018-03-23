@@ -13,7 +13,7 @@ exports = module.exports = function (req, res) {
 	};
 	// locals.section is used to set the currently selected
 	// item in the header navigation.
-	locals.section = 'profile';
+	locals.section = 'warrancies';
 
 	if (req.user.canAccessClients) {
 	// Render the view
@@ -50,59 +50,6 @@ exports = module.exports = function (req, res) {
 			next(err);
 		});
 
-	});
-	view.on('post', { action: 'account' }, function (next) {
-		console.log(req.body.newPassword);
-		var q = User.model.findOne().where('_id', req.user.id).exec(function (err, user) {
-			if (user) {
-				user._.password.compare(req.body.password, function (err, isMatch) {
-					if (!err && isMatch) {
-						if (req.body.newPassword === req.body.confirmPassword) {
-							user.name.first = req.body.name;
-							user.name.last = req.body.lastName;
-							user.phone = req.body.phone;
-							user.email = req.body.email;
-							user.password = req.body.confirmPassword;
-							user.save(function (err, bet) {
-								if (err) {
-									console.log(err);
-								}
-								console.log('saved bet: ', bet);
-								return next();
-							});
-						}
-						else {
-							req.flash('error', 'The passwords do not match.');
-							return next();
-						}
-					}
-					else {
-						req.flash('error', 'Given password is incorrect.');
-						return next();
-					}
-				});
-			}
-
-			else {
-				console.log('No such user');
-				/* var updater = q.getUpdateHandler(req);
-				updater.process(req.body, {
-					flashErrors: true,
-					fields: 'name, email, phone, newPassword',
-					errorMessage: 'There was a problem updating your profile',
-				}, function (err) {
-					if (err) {
-						locals.validationErrors = err.errors;
-					} else {
-						// locals.enquirySubmitted = true;
-					}*/
-				req.flash('error', 'The passwords do not match.');
-				next();
-			
-				// });
-			}
-		});
-		//return next();
 	});
 
 	// });

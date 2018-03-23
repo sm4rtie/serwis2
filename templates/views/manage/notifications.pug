@@ -4,24 +4,30 @@ block intro
   script(src="/js/jquery/jquery-2.1.4.min.js")
 
   .container
-    table(class="table table-hover" id="msg")
+    div(class='tabela')
       script.
         $(document).ready(function() {
+          $('#msg').DataTable();
           $(document).on("click", "#msg tbody tr", function() {
-          var id = $(this).find(".cntId").html();
-            console.log("CLICKED " + id);
+            var id = $(this).find(".cntId").html();
             window.location.href = '/manage/notification/' + id;
           });
         });
-      tbody
-      each contact in contacts
-        if(!contact.read)
-          tr(style="font-weight:bold")
-            td #{contact.from}
-            td(class="cntId") #{contact._id}
-            td #{contact.createdAt}
-        else
+      table(class="table table-hover" id="msg")
+        thead
           tr
-            td #{contact.from}
-            td(class="cntId") #{contact._id}
-            td #{contact.createdAt}
+            th
+            th
+            th
+        tbody
+          each contact in contacts
+            if(!contact.read)
+              tr(style="font-weight:bold")
+                td #{contact.from}
+                td(class="cntId") #{contact._id}
+                td #{contact.createdAt}
+            else
+              tr
+                td #{contact.from}
+                td(class="cntId") #{contact._id}
+                td #{contact.createdAt}

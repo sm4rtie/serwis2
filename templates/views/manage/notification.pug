@@ -5,37 +5,38 @@ block intro
   style
     include ../../../public/styles/inbox.css
   .container
-    //h4 Order: #{mail.orderId}
-    ul(class="chat")
-      div(class="bg-info")
-        li(class="left clearfix")
-          div(class="chat-body clearfix")
-            div(class="header")
-              h4
-                strong(class="primary-font") Ticket: #{mail.orderId}
-              strong(class="primary-font") From: #{mail.from}
-              small(class="pull-right text-muted") #{mail.createdAt}
-                span(class="glyphicon glyphicon-time")
-            p #{mail.message.md}
-      if(previous)
-        each prev in previous
+    div(class='tabela')
+      //h4 Order: #{mail.orderId}
+      ul(class="chat")
+        div(class="bg-info")
           li(class="left clearfix")
-            span(class="glyphicon glyphicon-user")
             div(class="chat-body clearfix")
               div(class="header")
-                strong(class="primary-font") #{prev.from}
-                small(class="pull-right text-muted") #{prev.createdAt}
+                h4
+                  strong(class="primary-font") Ticket: #{mail.orderId}
+                strong(class="primary-font") From: #{mail.from}
+                small(class="pull-right text-muted") #{mail.createdAt}
                   span(class="glyphicon glyphicon-time")
-              p #{prev.message.md}
-            if(prev.response)
-              li(class="left clearfix")
-                span(class="glyphicon glyphicon-envelope")
-                div(class="chat-body clearfix")
-                  div(class="header")
-                    strong(class="primary-font") Me
-                    small(class="pull-right text-muted") #{prev.responseAt}
-                      span(class="glyphicon glyphicon-time")
-                  p #{prev.response}
+              p #{mail.message.md}
+        if(previous)
+          each prev in previous
+            li(class="left clearfix")
+              span(class="glyphicon glyphicon-user")
+              div(class="chat-body clearfix")
+                div(class="header")
+                  strong(class="primary-font") #{prev.from}
+                  small(class="pull-right text-muted") #{prev.createdAt}
+                    span(class="glyphicon glyphicon-time")
+                p #{prev.message.md}
+              if(prev.response)
+                li(class="left clearfix")
+                  span(class="glyphicon glyphicon-envelope")
+                  div(class="chat-body clearfix")
+                    div(class="header")
+                      strong(class="primary-font") Me
+                      small(class="pull-right text-muted") #{prev.responseAt}
+                        span(class="glyphicon glyphicon-time")
+                    p #{prev.response}
     hr
     div
       .row: .col-sm-8.col-md-6

@@ -16,6 +16,7 @@ html
 		link(href="/styles/site.css", rel="stylesheet")
 		link(href="/styles/easy-autocomplete.themes.min.css", rel="stylesheet")
 		link(href="/styles/easy-autocomplete.themes.css", rel="stylesheet")
+		link(rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css")
 
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
@@ -37,7 +38,6 @@ html
 
 	//- HTML BODY
 	body
-
 		//- HEADER
 		#header: .container
 
@@ -89,16 +89,17 @@ html
 											li: a(href='http://localhost:3000/manage/users') Users
 								else if user.canAccessKeystone
 									li: a(href='/keystone') Open Keystone
+								li: a(href='/account') Profile
 								li: a(href='/keystone/signout') Sign Out
 							else
 								li: a(href='/keystone/signin') Sign In
 
 		//- BODY
 		#body
-
 			//- NOTE:
 			//- There is no .container wrapping class around body blocks to allow more flexibility in design.
 			//- Remember to include it in your templates when you override the intro and content blocks!
+
 
 			//- The Intro block appears above flash messages (used for temporary information display)
 			block intro

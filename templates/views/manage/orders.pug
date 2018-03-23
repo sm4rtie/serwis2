@@ -8,7 +8,19 @@ block intro
 
   script.
     $(document).ready(function () {
-      $('#table').DataTable();
+      var t = $('#table').DataTable({
+       
+        "columnDefs": [ {
+                   "searchable": false,
+                   "orderable": false,
+                   "targets": 0
+               } ],
+          "order": [[ 1, 'asc' ]]});
+      t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
       $(function() {
         var opt = (!{JSON.stringify(users)});
         console.log(!{JSON.stringify(users)})
@@ -18,12 +30,22 @@ block intro
           getValue: function(element) {
             return element.name.first + " " + element.name.last;
           },
+          template: {
+            type: "description",
+            fields: {
+                description: "email"
+            }
+          },
           list: {
             onSelectItemEvent: function() {
               var index = $("#autocomplete").getSelectedItemData()._id;
                 $("#client").val(index).trigger("change");
-              }
-            },
+              },
+            match: {
+              enabled: true
+            }
+          },
+
             theme: "custom"
           };
           $("#autocomplete").easyAutocomplete(options);
@@ -44,12 +66,12 @@ block intro
             a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Orders
         div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
           div(class="panel-body")
-            div(class='input-group')
-              //input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
-              table(id="table" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%")
+            div(class='table-responsive')
+              table(id="table" class="table " cellspacing="0" width="100%")
                 thead(class="thead thead-inverse")
                   tr
-                    th Order ID
+                    th #
+                    th Ticket ID
                     th Admitted
                     th Client ID
                     th State
@@ -57,6 +79,7 @@ block intro
                 tbody(id='myTable')
                   each order in orders
                     tr
+                      td
                       td
                         a(href='orders/' + order._id) #{order._id}
                       td #{order.dateStart}
@@ -82,13 +105,6 @@ block intro
               .form-group
                 label Damage
                 input(type='text', id='damage', class="form-control", name='damage')
-              .form-group
-                label State
-                div(class="input-group")
-                  select(name='state').form-control
-                    option(selected=' ') choose
-                      each state in states
-                        option(value=state.value, selected=formData.status == state.value)= state.label
               .form-group
                 input(type='hidden', id='employee', class="form-control", name='employee', value=employee)
               .form-actions

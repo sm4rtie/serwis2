@@ -7,27 +7,11 @@ block intro
 	script.
 		$(document).ready(function () {
 			$('#profile').DataTable();
-			$("#account").hide();
-			$("#ordersBtn").click(function () {
-			$("#account").hide();
 
-				$("#tabela").slideToggle("slow");
-			});
-			$("#accountBtn").click(function () {
-				$("#tabela").hide();
-				$("#account").slideToggle("slow");
-			});
-				$("#myInput").on("keyup", function () {
-					var value = $(this).val().toLowerCase();
-					$("#myTable tr").filter(function () {
-						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-					});
-				});
 		});
-	.container
-		button(class='btn btn-primary' id='ordersBtn') Orders
-		button(class='btn btn-primary' id='accountBtn') Edit profile
-		div#tabela
+	.container: .tabela
+
+		div(#tabela)
 			table(id='profile', class='table table-hover')
 				thead
 					tr
@@ -35,6 +19,7 @@ block intro
 						th Status
 						th Received
 						th Product
+						th Damage
 				tbody(id='myTable')
 					each order in orders
 						tr
@@ -43,32 +28,8 @@ block intro
 							td #{order.state}
 							td #{order.dateStart}
 							td #{order.product}
+							td #{order.damage}
 
-		form(method='post' id='account')
-			input(type='hidden', name='action', value='account')
-			.form-group
-				label Name
-				input(type='text', id='name', class="form-control", name='name', value=users.name.first)
-			.form-group
-				label Last Name
-				input(type='text', class="form-control", id='lastName', name='lastName', value=users.name.last)
-			.form-group
-				label Phone
-				input(type='text', id='phone',class="form-control", name='phone', placeholder='111222333')
-			.form-group
-				label Email
-				input(type='email', id='email',class="form-control", name='email', value=users.email)
-			.form-group
-				label Password
-				input(type='password', id='password',class="form-control", name='password')
-			.form-group
-				label New Password
-				input(type='password', id='newPassword',class="form-control", name='newPassword')
-			.form-group
-				label Confirm New Password
-				input(type='password', id='confirmPassword',class="form-control", name='confirmPassword')
-			.form-actions
-				button(type='submit').btn.btn-primary Send
 
 			//script.
 				$('tr').not(':first').hover( function() {

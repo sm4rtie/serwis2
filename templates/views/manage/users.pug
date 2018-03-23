@@ -20,20 +20,27 @@ block intro
             a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Users
         div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
           div(class="panel-body")
-            div(class='input-group')
-              //input(id='myInput' type='text' name='myInput' placeholder='Search...' class='form-control' aria-describedby="icon")
+            div(class='table-responsive')
               table(class ='table table-hover' id="users")
                 thead(class="thead thead-inverse")
                   tr
                     th ID
                     th Full Name
                     th Email
+                    th Phone
+                    th Street address
+                    th City
+                    th Zip code
                 tbody(id='myTable')
                   each user in users
                     tr
                       td #{user._id}
                       td #{user.name.full}
                       td #{user.email}
+                      td #{user.phone}
+                      td #{user.streetAddress}
+                      td #{user.city}
+                      td #{user.zipCode}
         div(class="panel panel-default")
           div(class="panel-heading")
             h5(class="panel-title")
@@ -54,5 +61,18 @@ block intro
                 .form-group
                   label Confirm Password
                   input(type='password', id='passwordConfirm', class="form-control", name='passwordConfirm')
+                .form-group
+                  label Phone
+                  input(type='text', id='phone',class="form-control", name='phone',placeholder='Format 123456789')
+                .form-group
+                  label Street Address
+                  input(type='text', id='streetAddress',class="form-control", name='streetAddress', placeholder="Akademicka 5")
+                .form-group
+                  label City
+                  input(type='text', id='city',class="form-control", name='city' )
+                .form-group
+                  label Zip Code
+                  input(type='text', id='zipCode',class="form-control", name='zipCode',  placeholder='12-345')
+
                 .form-actions
                   button(type='submit').btn.btn-primary Send

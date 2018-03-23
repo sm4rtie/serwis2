@@ -1,32 +1,66 @@
 extends ../layouts/default
 
-block intro
-	script(src="/js/jquery/jquery-2.1.4.min.js")
-	.container
-		h1 Contact Us
+
+
 
 block content
 	.container
-			.row: .col-sm-8.col-md-6
-				form(method='post' id='formularz')
-					input(type='hidden' value='{#userData._id}', id='odId')
+		//.row: .col-sm-8.col-md-6
+		div(class='col-md-8 col-md-offset-2')
+			div(class='tabela')
+				div(class='text-center')
+					h3 Edit your profile
+				form(method='post' id='account')
 					input(type='hidden', name='action', value='account')
-					.form-group(class=validationErrors.name ? 'has-error' : null)
-						label Name
-						input(type='text', name='name.first', value='userData.name').form-control
-					.form-group(class=validationErrors.name ? 'has-error' : null)
-						label Surname
-						input(type='text', name='name.last', value=formData['name.last']).form-control
-					.form-group(class=validationErrors.password ? 'has-error' : null)
-						label Current password
-						input(type='password', name='password', value=formData['password']).form-control
-					.form-group(class=validationErrors.newPassword ? 'has-error' : null)
-						label Enter new password
-						input(type='password', name='newPassword', value=formData['newPassword']).form-control
-					.form-group(class=validationErrors.confirmNewPassword ? 'has-error' : null)
-						label Confirm new password
-						input(type='password', name='confirmNewPassword', value=formData['confirmNewPassword']).form-control
+					.form-group
+						div(class='row')
+							label(for="email" class="col-sm-2 col-form-label") Email
+							div(class="col-sm-10")
+								input(type='email', id='email',readonly class="form-control", name='email', value=users.email)
+					.form-group
+						div(class='row')
+							label(for="name" class="col-sm-2 col-form-label") Name
+							div(class="col-sm-10")
+								input(type='text', id='name', class="form-control", name='name', value=users.name.first)
+					.form-group
+						div(class='row')
+							label(for="lastName" class="col-sm-2 col-form-label") Last Name
+							div(class="col-sm-10")
+								input(type='text', class="form-control", id='lastName', name='lastName', value=users.name.last)
+					.form-group
+							div(class='row')
+								label(for="phone" class="col-sm-2 col-form-label") Phone
+								div(class="col-sm-10")
+									input(type='text', id='phone',class="form-control", name='phone', value=users.phone, placeholder='Format 123456789')
+					.form-group
+						div(class='row')
+							label(for="streetAddress" class="col-sm-2 col-form-label") Street Address
+							div(class="col-sm-10")
+								input(type='text', id='streetAddress',class="form-control", name='streetAddress', value=users.streetAddress, placeholder="Akademicka 5")
+					.form-group
+						div(class='row')
+							label(for="city" class="col-sm-2 col-form-label") City
+							div(class="col-sm-10")
+								input(type='text', id='city',class="form-control", name='city', value=users.city)
+					.form-group
+						div(class='row')
+							label(for="zipCode" class="col-sm-2 col-form-label") Zip Code
+							div(class="col-sm-10")
+								input(type='text', id='zipCode',class="form-control", name='zipCode', value=users.zipCode, placeholder='12-345')
+					.form-group
+						div(class='row')
+							label(for="password" class="col-sm-2 col-form-label") Password
+							div(class="col-sm-10")
+								input(type='password', id='password',class="form-control", name='password')
+					.form-group
+						div(class='row')
+							label(for="newPassword" class="col-sm-2 col-form-label") New Password
+							div(class="col-sm-10")
+								input(type='password', id='newPassword',class="form-control", name='newPassword', placeholder='Minimum 6 characters')
+					.form-group
+						div(class='row')
+							label(for="confirmPassword" class="col-sm-2 col-form-label") Confirm New Password
+							div(class="col-sm-10")
+								input(type='password', id='confirmPassword',class="form-control", name='confirmPassword', placeholder='Minimum 6 characters')
 					.form-actions
 						button(type='submit').btn.btn-primary Send
-						
-						

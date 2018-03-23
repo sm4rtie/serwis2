@@ -19,20 +19,15 @@ OrderContact.add({
 });
 
 OrderContact.schema.pre('save', function (next) {
-	console.log("presave1");
 	if(this.isModified('read')) return next();
-	console.log("presave2");
-	console.log('GOING NEXT');
 	this.wasNew = this.isNew;
 	next();
 });
 
 OrderContact.schema.post('save', function () {
-	console.log("postsave1");
 	if (this.wasNew || this.isModified) {
 		this.sendNotificationEmail();
 	}
-	console.log("postsave2");
 
 });
 
@@ -54,22 +49,23 @@ OrderContact.schema.methods.sendNotificationEmail = function (callback) {
 	var brand = keystone.get('brand');
 
 	//keystone.list('User').model.find().where('_id', req.user.id).exec(function (err, employee) {
-	keystone.list('User').model.find().where('isAdmin', true).exec(function (err, employee) {
+	keystone.list('Order').model.findOne().where('_id', orderContact.orderId).exec(function (err, order) {
+    if(err) return callback();
+	keystone.list('User').model.findOne().where('_id', order.employee).exec(function (err, employee) {
+    if(err) return callback();
 		if (err) return callback(err);
 		new keystone.Email({
 			templateName: 'order_contact',
 			transport: 'mailgun',
 		}).send({
-			to: 'marta.jareckaa@gmail.com',
-			from: {
-				name: 'Serwis',
-				email: 'contact@serwis.com',
-			},
+			to: 'marta.jareckaa@gmail.com' || employee.email,
+			from: orderContact.from,
 			subject: 'Asking about order',
 			enquiry: orderContact,
 			brand: brand,
 		}, callback);
 	});
+});
 };
 
 OrderContact.defaultSort = '-createdAt';

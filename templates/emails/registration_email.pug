@@ -1,0 +1,6 @@
+html
+	head
+	body
+		h3 Hello #{user.name.first}! Welcome to our website!
+		if user.resetPasswordKey
+			p.text-larger Please set your password on http://localhost:3000/reset-password/#{user.resetPasswordKey}

@@ -47,7 +47,7 @@ var updater = UserNew.getUpdateHandler(req);
 //console.log(req);
   updater.process(req.body, {
     flashErrors: true,
-    fields: 'name, password, email',
+    fields: 'name, password, email, phone, streetAddress, city, zipCode',
     errorMessage: 'There was a problem creating user:',
 
   }, function (err) {

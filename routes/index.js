@@ -36,7 +36,7 @@ exports = module.exports = function (app) {
 	// Views
 	app.get('/', routes.views.index);
 	app.all('/contact', routes.views.contact);
-	app.all('/profile', middleware.requireUser, routes.views.profile);
+	app.all('/warrancies', middleware.requireUser, routes.views.profile);
 	//app.all('/:order', middleware.requireUser, routes.views.orderContact);
 	app.all('/account', middleware.requireUser, routes.views.account);
 	//app.use('/auth/', forgottenPassword); // routes are mounted on /auth/ auth/forgot, auth/change-password will be added
@@ -49,8 +49,8 @@ exports = module.exports = function (app) {
 	app.all('/manage/notifications', middleware.requireEmployee, routes.views.notifications);
 	app.post('/manage/notifications', middleware.requireEmployee, routes.views.notifications);
 	app.all('/manage/notification/:notificationId', middleware.requireEmployee, routes.views.notification);
-	app.all('/reset-password/:resetPasswordKey', routes.views.resetPassword)
-
+	app.all('/reset-password/:resetPasswordKey', routes.views.resetPassword);
+	app.all('/profile', middleware.requireUser, routes.views.account);
 	//app.post('/details/:orderId', middleware.requireUser, routes.views.orderContact);
 
 

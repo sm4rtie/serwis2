@@ -1,49 +1,81 @@
 var keystone = require('keystone');
-var User = keystone.List('User');
-
+var User = keystone.list('User');
 
 exports = module.exports = function (req, res) {
 
-	var view = new keystone.View(req, res);
-	var locals = res.locals;
-	locals.section = 'account';
-	locals.userData;
-	var locals = res.locals;
-	locals.filters = {
-		users: req.user,
-	};
-	locals.formData = req.body || {};
-	locals.validationErrors = {};
+
+		var view = new keystone.View(req, res);
+		var locals = res.locals;
+		locals.filters = {
+			users: req.params.users,
+
+		};
+		locals.section = 'account';
 
 	view.on('init', function (next) {
-		/*console.log(req.user);
-
-		var q = User.model.findOne().where('_id', req.user._id);
+		console.log(req.user.id);
+		var q = User.model.findOne().where('_id', req.user.id);
 
 		q.exec(function (err, results) {
-			locals.userData = results;
+			locals.users = results;
 			next(err);
-		});*/
-	});
-	view.on('post', { action: 'account' }, function (next) {
-		if (!req.body.password || !req.body.password_confirm) {
-			req.flash('error', 'Please enter, and confirm your new password.');
-			return next();
-		}
-
-		if (req.body.newPassword != req.body.confirmNewPassword) {
-			req.flash('error', 'Please make sure both passwords match.');
-			return next();
-		}
-
-		locals.found.password = req.body.password;
-		locals.found.resetPasswordKey = '';
-		locals.found.save(function (err) {
-			if (err) return next(err);
-			req.flash('success', 'Your password has been reset, please sign in.');
-			res.redirect('/signin');
 		});
 
+	});
+	view.on('post', { action: 'account' }, function (next) {
+		var q = User.model.findOne().where('_id', req.user.id).exec(function (err, user) {
+			if (user) {
+				user._.password.compare(req.body.password, function (err, isMatch) {
+					if (!err && isMatch) {
+						if (req.body.newPassword === req.body.confirmPassword) {
+							user.name.first = req.body.name;
+							user.name.last = req.body.lastName;
+							user.phone = req.body.phone;
+							user.streetAddress = req.body.streetAddress;
+							user.city = req.body.city;
+							user.zipCode = req.body.zipCode;
+							user.email = req.body.email;
+							user.password = req.body.confirmPassword;
+							user.save(function (err, bet) {
+								if (err) {
+									console.log(err);
+								}
+								console.log('saved bet aa: ', bet);
+								return next();
+							});
+						}
+						else {
+							req.flash('error', 'The passwords do not match.');
+							return next();
+						}
+					}
+					else {
+						req.flash('error', 'Given password is incorrect.');
+						return next();
+					}
+				});
+			}
+
+			else {
+				console.log('No such user');
+				/* var updater = q.getUpdateHandler(req);
+				updater.process(req.body, {
+					flashErrors: true,
+					fields: 'name, email, phone, newPassword',
+					errorMessage: 'There was a problem updating your profile',
+				}, function (err) {
+					if (err) {
+						locals.validationErrors = err.errors;
+					} else {
+						// locals.enquirySubmitted = true;
+					}*/
+				req.flash('error', 'The passwords do not match.');
+				next();
+
+				// });
+			}
+		});
+		//return next();
 	});
 	view.render('account');
 

@@ -3,60 +3,64 @@ block intro
   script(src="/js/jquery/jquery-2.1.4.min.js")
   style
     include ../../public/styles/inbox.css
+  script.
+    $(document).ready(function () {
+      var reg = new RegExp('/^(\w+\s\w+\s\w+\s\d+)/');
+      var trunc = $('#data').val().substr(0, 10);
+      console.log(trunc);
+      var s = $('#data').val();
+      var date = reg.test(s);
+      //$("#date").append(trunc);
+    });
+
   .container
-    p Admitted: #{order.dateStart}
-    p Damage: #{order.damage}
-    p Product: #{order.product}
-    table(class ='table table-hover')
-      tbody(id='myTable')
-      each detail in details
-
+    div(class='tabela')
+      p Admitted: #{order.dateStart}
+      p Damage: #{order.damage}
+      p Product: #{order.product}
+      table(class='table ')
+        thead
           tr
-          td(id='date') #{detail.date}
-          //do wyrzucenia?
-            input(type='hidden' value=detail.date id='data')
-            script.
-              $(document).ready(function () {
-                var reg = new RegExp('/^(\w+\s\w+\s\w+\s\d+)/');
-                var trunc = $('#data').val().substr(0, 10);
-                console.log(trunc)
-                var s = $('#data').val();
-                var date = reg.test(s);
-                //$("#date").append(trunc);
-              });
-          td #{detail.state}
-          td #{detail.comment}
-          td #{detail.city}
-    hr
-    div
-      ul(class="chat")
-        each contact in contacts
-          li(class="left clearfix")
-            span(class="glyphicon glyphicon-user")
-            div(class="chat-body clearfix")
-              div(class="header")
-                strong(class="primary-font") Me
-                small(class="pull-right text-muted") #{contact.createdAt}
-                  span(class="glyphicon glyphicon-time")
-              p #{contact.message.md}
-            if(contact.response)
-              li(class="left clearfix")
-                span(class="glyphicon glyphicon-envelope")
-                div(class="chat-body clearfix")
-                  div(class="header")
-                    strong(class="primary-font") Serwis
-                    small(class="pull-right text-muted") #{contact.responseAt}
-                      span(class="glyphicon glyphicon-time")
-                  p #{contact.response}
+            th Date
+            th State
+            th Comment
+            th City
+        tbody(id='myTable')
+          each detail in details
+            tr
+              td(id='date') #{detail.date}
+              td #{detail.state}
+              td #{detail.comment}
+              td #{detail.city}
+      hr
+      div
+        ul(class="chat")
+          each contact in contacts
+            li(class="left clearfix")
+              span(class="glyphicon glyphicon-user")
+              div(class="chat-body clearfix")
+                div(class="header")
+                  strong(class="primary-font") Me
+                  small(class="pull-right text-muted") #{contact.createdAt}
+                    span(class="glyphicon glyphicon-time")
+                p #{contact.message.md}
+              if(contact.response)
+                li(class="left clearfix")
+                  span(class="glyphicon glyphicon-envelope")
+                  div(class="chat-body clearfix")
+                    div(class="header")
+                      strong(class="primary-font") Serwis
+                      small(class="pull-right text-muted") #{contact.responseAt}
+                        span(class="glyphicon glyphicon-time")
+                    p #{contact.response}
 
-      .row: .col-sm-8.col-md-6
-        form(method='post' id='formularz')
-          input(type='hidden', name='action', value='order')
-          input(type='hidden', name='orderId', value=details[0].orderId)
-          input(type="hidden", value=userEmail, name="from")
-          .form-group
-            //(class=validationErrors.message ? 'has-error' : null)
-            label Message
-            textarea(name='message', placeholder='Leave us a message...' rows=4).form-control= formData.message
-          .form-actions
-            button(type='submit').btn.btn-primary Send
+        .row: .col-md-8.col-md-offset-2
+          form(method='post' id='formularz')
+            input(type='hidden', name='action', value='order')
+            input(type='hidden', name='orderId', value=order._id)
+            input(type="hidden", value=userEmail, name="from")
+            .form-group
+              textarea(name='message', placeholder='Leave us a message...' rows=4).form-control= formData.message
+            .form-actions
+              div(class='text-center')
+                button(type='submit').btn.btn-primary Send

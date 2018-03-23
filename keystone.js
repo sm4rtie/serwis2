@@ -49,8 +49,8 @@ keystone.set('nav', {
 		users: 'users',
 	content: ['enquiries', 'orders',]
 });
-keystone.set('signin url', '/contact');
-keystone.set('signin redirect', '/profile');
+//keystone.set('signin url', '/contact');
+keystone.set('signin redirect', '/warrancies');
 
 // Start Keystone to connect to your database and initialise the web server
 

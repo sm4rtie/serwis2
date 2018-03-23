@@ -11,8 +11,12 @@ var User = new keystone.List('User');
 User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, required: true, unique: true, index: true },
-	password: { type: Types.Password, initial: true, required: true },
-	resetPasswordKey: { type: String }
+	password: { type: Types.Password, initial: true, required: true, min: 6 },
+	phone: {type: Types.Text,  initial: true},
+	resetPasswordKey: { type: String },
+	streetAddress: {type: String, initial: true },
+	city: {type: String, initial: true },
+	zipCode: {type: Types.Text, max:7, initial: true }
 
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true, default: false },
@@ -47,9 +51,10 @@ User.schema.pre('save', function(next) {
 
 });*/
 User.schema.post('save', function () {
-	if(this.wasNew || this.isModified) {
+	if(this.wasNew) {
 		this.sendNotificationEmail();
 	}
+
 });
 
 User.schema.methods.sendNotificationEmail = function (callback) {
@@ -70,22 +75,21 @@ User.schema.methods.sendNotificationEmail = function (callback) {
 	var brand = keystone.get('brand');
 
 	//keystone.list('User').model.find().where('_id', req.user.id).exec(function (err, employee) {
-	keystone.list('User').model.find().where('isAdmin', true).exec(function (err, employee) {
-		if (err) return callback(err);
+
 		new keystone.Email({
-			templateName: 'reset_password',
+			templateName: 'registration_email',
 			transport: 'mailgun',
 		}).send({
-			to: 'marta.jareckaa@gmail.com',
+			to: 'marta.jareckaa@gmail.com' || user.email ,
 			from: {
 				name: 'Serwis',
 				email: 'contact@serwis.com',
 			},
-			subject: 'Asking about order',
-			enquiry: user,
+			subject: 'Welcome to serwis.com!',
+			user: user,
 			brand: brand,
 		}, callback);
-	});
+
 }
 
 

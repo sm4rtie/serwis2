@@ -4,4 +4,6 @@ html
 		p.text-larger An enquiry was just submitted to #{brand}:
 		if enquiry.orderId
 			p.text-muted #{enquiry.orderId}
+		if enquiry.employee
+			p.text-muted #{enquiry.employee}
 		p &nbsp;

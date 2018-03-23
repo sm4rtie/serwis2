@@ -31,6 +31,7 @@ OrderDetails.schema.pre('save', function(next) {
     version = results.version + 1;
     spec.version = version;
     console.log("v" + version);
+
     next();
   });
 
@@ -57,23 +58,23 @@ OrderDetails.schema.methods.sendNotificationEmail = function (callback) {
 
 	var orderDetails = this;
 	var brand = keystone.get('brand');
-
-	//keystone.list('User').model.find().where('_id', req.user.id).exec(function (err, employee) {
-
+  console.log(this);
+  keystone.list('Order').model.findOne().where('_id', orderDetails.orderId).exec(function (err, order) {
+    if(err) return callback();
+	keystone.list('User').model.findOne().where('_id', order.client).exec(function (err, client) {
+    if(err) return callback();
 	new keystone.Email({
 			templateName: 'order_detail',
 			transport: 'mailgun',
 		}).send({
-			to: 'marta.jareckaa@gmail.com',
-			from: {
-				name: 'Serwis',
-				email: 'contact@serwis.com',
-			},
+			to: 'marta.jareckaa@gmail.com' || client.email,
+			from: 'noreply@serwis.com',
 			subject: 'Asking about order',
 			enquiry: orderDetails,
 			brand: brand,
 		}, callback);
+});
+});
 };
-
 OrderDetails.defaultSort = ('-version');
 OrderDetails.register();

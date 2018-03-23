@@ -9,9 +9,15 @@ html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%; }
-
+body.home-page {
+  background-image: url(/images/bg.jpeg);
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;
+}
 body {
-  margin: 0; }
+  margin: 0;
+}
 
 article,
 aside,
@@ -1059,7 +1065,11 @@ body {
   font-size: 14px;
   line-height: 1.42857;
   color: #333333;
-  background-color: #fff; }
+  background-image: url(/images/bg.jpeg);
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;
+}
 
 input,
 button,
@@ -1498,12 +1508,19 @@ pre {
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll; }
-
+.tabela {
+  border-radius: 5px;
+  padding: 20px;
+  background: #f8f8f8;
+  color: black;
+}
 .container {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
-  padding-right: 15px; }
+  padding-right: 15px;
+
+}
   .container:before, .container:after {
     content: " ";
     display: table; }
@@ -4313,11 +4330,13 @@ a.badge:hover, a.badge:focus {
   .container-fluid .jumbotron {
     border-radius: 6px; }
   .jumbotron .container {
-    max-width: 100%; }
+    max-width: 100%;}
   @media screen and (min-width: 768px) {
     .jumbotron {
       padding-top: 48px;
-      padding-bottom: 48px; }
+      padding-bottom: 48px;
+      background: rgba(255,255,255,0.7);
+      color: #000;}
       .container .jumbotron,
       .container-fluid .jumbotron {
         padding-left: 60px;

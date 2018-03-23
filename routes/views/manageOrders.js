@@ -48,7 +48,7 @@ var updater = newOrder.getUpdateHandler(req);
 console.log(req.body);
   updater.process(req.body, {
     flashErrors: true,
-    fields: 'client, product, damage, employee, state',
+    fields: 'client, product, damage, employee',
     errorMessage: 'There was a problem creating order:',
 
   }, function (err) {
@@ -57,7 +57,7 @@ console.log(req.body);
     }
     next();
   });
-  res.redirect('orders');
+  //res.redirect('orders');
 
 });
 
