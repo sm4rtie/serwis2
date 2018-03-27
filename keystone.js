@@ -47,7 +47,7 @@ keystone.set('routes', require('./routes'));
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
 		users: 'users',
-	content: ['enquiries', 'orders',]
+	content: ['order-contacts', 'order-details', 'orders']
 });
 //keystone.set('signin url', '/contact');
 keystone.set('signin redirect', '/warrancies');

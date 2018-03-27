@@ -15,6 +15,9 @@ block intro
 								label Client
 								input(type='text', id='client', class="form-control", name='client', value=user.name.full)
 							.form-group
+								label Product
+								input(type='text', id='product',class="form-control", name='product', placeholder='product', value=order.product)
+							.form-group
 								label Damage
 								input(type='text', id='damage', class="form-control", name='damage', value=order.damage)
 							.form-group(class=validationErrors.status ? 'has-error' : null id='pole')
@@ -25,10 +28,7 @@ block intro
 											each state in states
 												if(state.label.toLowerCase() !== order.state.toLowerCase())
 													option(value=state.value, selected=formData.status == state.value)= state.label
-							.form-group
-								label Product
-								input(type='text', id='product',class="form-control", name='product', placeholder='product', value=order.product)
-							.form-actions
+														.form-actions
 							button(type='submit').btn.btn-primary Send
 			div(class="panel panel-default")
 				div(class="panel-heading")
@@ -54,6 +54,9 @@ block intro
 							.form-group
 								label Comment
 								input(type='text', id='comment', class="form-control", name='comment')
+							.form-group
+								label City
+								input(type='text', id='city',class="form-control", name='city')
 							.form-group(class=validationErrors.status ? 'has-error' : null id='pole')
 								label State
 								div(class="input-group")
@@ -62,9 +65,6 @@ block intro
 											each state in statesDetails
 												if(state.label.toLowerCase() !== order.state.toLowerCase())
 													option(value=state.value, selected=formData.status == state.value)= state.label
-							.form-group
-								label City
-								input(type='text', id='city',class="form-control", name='city')
 							.form-group
 								input(type='hidden', value=0 ,class="form-control", name='version')
 							.form-actions

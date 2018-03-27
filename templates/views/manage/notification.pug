@@ -18,6 +18,15 @@ block intro
                 small(class="pull-right text-muted") #{mail.createdAt}
                   span(class="glyphicon glyphicon-time")
               p #{mail.message.md}
+        if(mail.response)
+          li(class="left clearfix")
+            span(class="glyphicon glyphicon-envelope")
+            div(class="chat-body clearfix")
+              div(class="header")
+                strong(class="primary-font") Me
+                small(class="pull-right text-muted") #{mail.responseAt}
+                    span(class="glyphicon glyphicon-time")
+              p #{mail.response}
         if(previous)
           each prev in previous
             li(class="left clearfix")
@@ -35,7 +44,7 @@ block intro
                     div(class="header")
                       strong(class="primary-font") Me
                       small(class="pull-right text-muted") #{prev.responseAt}
-                        span(class="glyphicon glyphicon-time")
+                          span(class="glyphicon glyphicon-time")
                     p #{prev.response}
     hr
     div
