@@ -1,0 +1,71 @@
+extends ../../layouts/default
+block intro
+	style
+		include ../../../public/styles/centerDiv.css
+block content
+	div(class="container")
+		div(class='tabela')
+			div(class="row text-center")
+				div(class="col-md-offset-4 col-md-8")
+					div(class="sign")
+						form(method='post',role='signin')
+							input(type='hidden', name='action', value='signin')
+							.form-control-box
+								.form-group
+									label(for='signin-email').sr-only Email
+									input(type='email', name='signin_email', placeholder='Email', id='signin-email', value=signin_email).form-control
+								.form-group
+									label(for='signin-password').sr-only Password
+									input(type='password', name='signin_password', placeholder='Password', id='signin-password', value='').form-control
+								.form-action
+									button(type='submit').btn.btn-primary Sign in
+
+
+								p.text-center
+									a(href=js, style='display: none;').btn.btn-block.btn-link.js-toggle-signin Sign In
+
+								p.text-center
+									a(href='#', id="forgotPassword") Forgot your password?
+		div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+			div(class="modal-dialog" role="document")
+				div(class="modal-content")
+					div(class="modal-header")
+						h5(class="modal-title" id="exampleModalLabel") Forgot password
+						button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+							span(aria-hidden="true") &times
+					div(class="modal-body")
+						form(data-target="#myModal" id="sendMail" method="POST")
+							input(type='hidden', name='action', value='forgottenPassword')
+							div(class="form-group-row input-group")
+								label(for="forgottenEmail" class="col-sm-2 col-form-label") Email:
+								div(class="col-sm-10")
+									input(type="email" name="forgottenEmail" id="forgottenEmail" class="form-control")
+							div(class="modal-footer")
+								div(class="form-group")
+									button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
+									button(type="submit" class="btn btn-primary" id="formSubmit") Save changes
+
+
+block js
+	script.
+		$(document).ready(function(){
+		  $('#forgotPassword').click(function(){
+		    event.preventDefault();
+		    $('#myModal').modal('toggle');
+
+		});
+		});
+		$(function(){
+			$('#formSubmit').click(function(e){
+
+				$('#myModal').modal('hide')
+			});
+		});
+		var $form = $('.signin-form');
+		var $submit = $form.find("[type='submit']");
+
+		$submit.click( function() {
+			$submit.addClass( 'disabled' );
+		});
+
+		$form.find("input[type!='hidden']").first().focus();

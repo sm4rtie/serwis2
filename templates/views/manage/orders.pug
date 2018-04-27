@@ -8,8 +8,9 @@ block intro
 
   script.
     $(document).ready(function () {
+
       var t = $('#table').DataTable({
-       
+
         "columnDefs": [ {
                    "searchable": false,
                    "orderable": false,
@@ -23,8 +24,6 @@ block intro
     } ).draw();
       $(function() {
         var opt = (!{JSON.stringify(users)});
-        console.log(!{JSON.stringify(users)})
-        console.log(opt)
         var options = {
           data: opt,
           getValue: function(element) {
@@ -37,7 +36,7 @@ block intro
             }
           },
           list: {
-            onSelectItemEvent: function() {
+            onClickEvent: function() {
               var index = $("#autocomplete").getSelectedItemData()._id;
                 $("#client").val(index).trigger("change");
               },
@@ -56,6 +55,9 @@ block intro
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
       });
+      $(function() {
+        $('#submit').attr('disabled', 'disabled');
+      })
     });
 
   .container
@@ -63,7 +65,7 @@ block intro
       div(class="panel panel-default")
         div(class="panel-heading")
           h5(class="panel-title")
-            a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Orders
+            a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Tickets
         div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
           div(class="panel-body")
             div(class='table-responsive')
@@ -89,7 +91,7 @@ block intro
       div(class="panel panel-default")
         div(class="panel-heading")
           h5(class="panel-title")
-            a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo") Add Order
+            a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo") Create Ticket
         div(id="collapseTwo" class="panel-collapse collapse")
           div(class="panel-body")
             form(method="post" id="newOrder")
@@ -108,4 +110,8 @@ block intro
               .form-group
                 input(type='hidden', id='employee', class="form-control", name='employee', value=employee)
               .form-actions
-                button(type='submit').btn.btn-primary Send
+                button(type='submit' id='submit').btn.btn-primary Send
+          script.
+            $('#autocomplete').keyup(function() {
+              $('#submit').attr('disabled', !$('#autocomplete').val());
+            });

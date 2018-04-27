@@ -51,6 +51,7 @@ exports = module.exports = function (app) {
 	app.all('/manage/notification/:notificationId', middleware.requireEmployee, routes.views.notification);
 	app.all('/reset-password/:resetPasswordKey', routes.views.resetPassword);
 	app.all('/profile', middleware.requireUser, routes.views.account);
+	app.all('/signin', routes.views.signin);
 	//app.post('/details/:orderId', middleware.requireUser, routes.views.orderContact);
 
 

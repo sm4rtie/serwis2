@@ -1,13 +1,18 @@
 extends ../../layouts/default
 
 block intro
+	script(src="/js/jquery/jquery-2.1.4.min.js")
+	script.
+		$(document).ready(function () {
+			var t = $('#details').DataTable();
+		});
 	.container
 		div(id="accordion" class="panel-group" aria-multiselectable="true")
 			div(class="panel panel-default")
 				div(class="panel-heading")
 					h5(class="panel-title")
-						a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Order ##{order._id}
-				div(id="collapseOne" class="panel-collapse collapse in" aria-labelledby="headingOne")
+						a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") General
+				div(id="collapseOne" class="panel-collapse collapse" aria-labelledby="headingOne")
 					div(class="panel-body")
 						form(method='post' id='account')
 							input(type='hidden', name='action', value='orderUpdate')
@@ -33,17 +38,30 @@ block intro
 			div(class="panel panel-default")
 				div(class="panel-heading")
 					h5(class="panel-title")
-						a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo") Add order details
-				div(id="collapseTwo" class="panel-collapse collapse" aria-labelledby="headingTwo")
+						a(data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree") Details
+				div(id="collapseThree" class="panel-collapse collapse in" aria-labelledby="headingThree")
 					div(class="panel-body")
-						table(class ='table-sm table-hover')
-							tbody(id='myTable')
+						table(class ='table table-hover' id='details')
+							thead
+								tr
+									th Date
+									th Status
+									th City
+									th Comment
+							tbody(id='details')
 								each detail in details
 									tr
-									td #{detail.date}
-									td #{detail.state}
-									td #{detail.comment}
-									td #{detail.city}
+										td #{detail.date}
+										td #{detail.state}
+										td #{detail.comment}
+										td #{detail.city}
+
+			div(class="panel panel-default")
+				div(class="panel-heading")
+					h5(class="panel-title")
+						a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo") Add Details
+				div(id="collapseTwo" class="panel-collapse collapse" aria-labelledby="headingTwo")
+					div(class="panel-body")
 
 						form(method='post' id='newOrderDetails')
 							input(type='hidden', name='action', value='newOrderDetails')

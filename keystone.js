@@ -50,8 +50,9 @@ keystone.set('nav', {
 	content: ['order-contacts', 'order-details', 'orders']
 });
 //keystone.set('signin url', '/contact');
-keystone.set('signin redirect', '/warrancies');
-
+keystone.set('signin redirect', '/');
+keystone.set('signout redirect', '/');
+keystone.set('signin url', '/signin');
 // Start Keystone to connect to your database and initialise the web server
 
 

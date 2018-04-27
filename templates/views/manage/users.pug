@@ -4,7 +4,19 @@ block intro
 
   script.
     $(document).ready(function () {
-      $('#users').DataTable();
+      var t = $('#users').DataTable({
+
+        "columnDefs": [ {
+                   "searchable": false,
+                   "orderable": false,
+                   "targets": 0
+               } ],
+          "order": [[ 1, 'asc' ]]});
+      t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
       $("#myInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#myTable tr").filter(function () {
@@ -24,6 +36,7 @@ block intro
               table(class ='table table-hover' id="users")
                 thead(class="thead thead-inverse")
                   tr
+                    th #
                     th ID
                     th Full Name
                     th Email
@@ -34,6 +47,7 @@ block intro
                 tbody(id='myTable')
                   each user in users
                     tr
+                      td
                       td #{user._id}
                       td #{user.name.full}
                       td #{user.email}
@@ -53,7 +67,7 @@ block intro
                   label Name(Full)
                   input(type='text', id='name', class="form-control", name='name')
                 .form-group
-                  label email
+                  label Email
                   input(type='email', id='email', class='form-control', name='email')
                 .form-group
                   label Password
