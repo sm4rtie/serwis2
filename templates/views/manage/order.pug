@@ -4,7 +4,25 @@ block intro
 	script(src="/js/jquery/jquery-2.1.4.min.js")
 	script.
 		$(document).ready(function () {
-			var t = $('#details').DataTable();
+			var t = $('#details').DataTable({
+
+			"columnDefs": [ {
+				"searchable": true,
+				"orderable": true,
+				"targets": 0
+							},
+							{
+							 	'targets': 0,
+								'render': function(data, type, full, meta){
+								if(type === 'display'){
+									var trimmedString = data.substring(0, 16);
+									return trimmedString;
+								}
+
+								return data;
+							}
+						} ],
+						"order": [[ 1, 'asc' ]]});
 		});
 	.container
 		div(id="accordion" class="panel-group" aria-multiselectable="true")

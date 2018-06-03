@@ -11,8 +11,16 @@ html {
   -webkit-text-size-adjust: 100%; }
 
 body {
-  margin: 0; }
-
+  margin: 0;
+  background-image:    url(/images/bg.jpeg);
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;  }
+.tabela {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 5px;
+}
 article,
 aside,
 details,
@@ -4299,7 +4307,7 @@ a.badge:hover, a.badge:focus {
   padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #eeeeee; }
+  background-color: rgba(255, 255, 255, 0.8);  }
   .jumbotron h1,
   .jumbotron .h1 {
     color: inherit; }

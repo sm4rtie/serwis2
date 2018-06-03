@@ -16,8 +16,7 @@ exports = module.exports = function (req, res) {
 	locals.section = 'warrancies';
 
 	if (req.user.canAccessClients) {
-	// Render the view
-  // view.on('get', function(next) {
+
 		Order.model.find()
       .where('employee', req.user.id)
       .sort('-dateStart')
@@ -52,6 +51,5 @@ exports = module.exports = function (req, res) {
 
 	});
 
-	// });
 	view.render('profile');
 };

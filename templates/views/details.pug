@@ -5,20 +5,37 @@ block intro
     include ../../public/styles/inbox.css
   script.
     $(document).ready(function () {
-      var reg = new RegExp('/^(\w+\s\w+\s\w+\s\d+)/');
-      var trunc = $('#data').val().substr(0, 10);
-      console.log(trunc);
-      var s = $('#data').val();
-      var date = reg.test(s);
-      //$("#date").append(trunc);
+      var t = $('#details').DataTable({
+
+      "columnDefs": [ {
+        "searchable": true,
+        "orderable": true,
+        "targets": 0
+             },
+             {
+                'targets': 0,
+                'render': function(data, type, full, meta){
+                   if(type === 'display'){
+                     var trimmedString = data.substring(0, 16);
+                     return trimmedString;
+                   }
+
+                   return data;
+                }
+             } ],
+        "order": [[ 1, 'asc' ]]});
+
     });
 
   .container
     div(class='tabela')
-      p Admitted: #{order.dateStart}
+      p(id='admitted') Admitted:
+        script.
+          $('#admitted').append(!{JSON.stringify(order.dateStart)}.substr(0,10))
       p Damage: #{order.damage}
       p Product: #{order.product}
-      table(class='table ')
+      hr
+      table(class='table ' id='details')
         thead
           tr
             th Date

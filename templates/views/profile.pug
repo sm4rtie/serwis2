@@ -12,7 +12,17 @@ block intro
 									 "searchable": false,
 									 "orderable": false,
 									 "targets": 0
-							 } ],
+							 },
+							 {
+							 	'targets': 3,
+								'render': function(data, type, full, meta){
+								if(type === 'display'){
+									var trimmedString = data.substring(0, 21);
+									return trimmedString;
+								}
+								return data;
+								}
+								}  ],
 					"order": [[ 1, 'asc' ]]});
 			t.on( 'order.dt search.dt', function () {
 				t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {

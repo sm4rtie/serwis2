@@ -58,24 +58,11 @@ exports = module.exports = function (req, res) {
 
 			else {
 				console.log('No such user');
-				/* var updater = q.getUpdateHandler(req);
-				updater.process(req.body, {
-					flashErrors: true,
-					fields: 'name, email, phone, newPassword',
-					errorMessage: 'There was a problem updating your profile',
-				}, function (err) {
-					if (err) {
-						locals.validationErrors = err.errors;
-					} else {
-						// locals.enquirySubmitted = true;
-					}*/
+
 				req.flash('error', 'The passwords do not match.');
 				next();
-
-				// });
 			}
 		});
-		//return next();
 	});
 	view.render('account');
 

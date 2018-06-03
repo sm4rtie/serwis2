@@ -20,7 +20,7 @@ exports = module.exports = function (req, res) {
 
 
 	view.on('init', function(next){
-		//var q = Order.model.findOne().where('_id', req.body.orderId);
+
     var z = OrderDetails.model.find().where('orderId', req.params.orderId).sort('-date');
 		z.exec(function (err, results) {
 			locals.details = results;
@@ -35,12 +35,11 @@ exports = module.exports = function (req, res) {
 	});
 });
   view.on('post', { action: 'order' }, function (next) {
-		//var q = Order.model.findOne().where('_id', req.user.id);
+
 		var newOrderContact = new OrderContact.model();
-		//newOrderContact.set({email: 'res.locals.user.email', name: 'res.locals.user.name.first'});
-		//newOrderContact._req_user = req.user;
+
 var updater = newOrderContact.getUpdateHandler(req);
-//console.log(req);
+
 		updater.process(req.body, {
 			flashErrors: true,
 			fields: 'message, orderId, from',
@@ -49,15 +48,12 @@ var updater = newOrderContact.getUpdateHandler(req);
 		}, function (err) {
 			if (err) {
 				locals.validationErrors = err.errors;
-			} //else {
-				//locals.enquirySubmitted = true;
-			//}
+			}
 			next();
 
-			//newOrderContact.save();
 		});
 
 	});
-			//newOrderContact.save();;
+
 	view.render('details');
 };

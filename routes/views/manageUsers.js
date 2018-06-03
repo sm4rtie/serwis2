@@ -11,8 +11,6 @@ exports = module.exports = function (req, res) {
   locals.validationErrors = {};
   locals.formData = req.body || {};
 
-	// locals.section is used to set the currently selected
-	// item in the header navigation.
 	locals.section = 'manage';
 
 	view.on('init', function (next) {
@@ -26,25 +24,10 @@ exports = module.exports = function (req, res) {
 	});
 }
 });
-/*view.on('get', function(next){
-  if (req.user.canAccessClients) {
-    var q = User.model.find()
-      .where('isAdmin' || 'isEmployee', false)
-      .exec(function (err, users) {
-    console.log(users);
-    return res.json(users);
-
-});
-}
-});*/
 
 view.on('post', { action: 'newUser' }, function (next) {
-  //var q = Order.model.findOne().where('_id', req.user.id);
   var UserNew = new User.model();
-  //newOrderContact.set({email: 'res.locals.user.email', name: 'res.locals.user.name.first'});
-  //newOrderContact._req_user = req.user;
 var updater = UserNew.getUpdateHandler(req);
-//console.log(req);
   updater.process(req.body, {
     flashErrors: true,
     fields: 'name, password, email, phone, streetAddress, city, zipCode',

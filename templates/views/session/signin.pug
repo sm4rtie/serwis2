@@ -33,17 +33,17 @@ block content
 						h5(class="modal-title" id="exampleModalLabel") Forgot password
 						button(type="button" class="close" data-dismiss="modal" aria-label="Close")
 							span(aria-hidden="true") &times
-					div(class="modal-body")
-						form(data-target="#myModal" id="sendMail" method="POST")
-							input(type='hidden', name='action', value='forgottenPassword')
-							div(class="form-group-row input-group")
-								label(for="forgottenEmail" class="col-sm-2 col-form-label") Email:
-								div(class="col-sm-10")
-									input(type="email" name="forgottenEmail" id="forgottenEmail" class="form-control")
-							div(class="modal-footer")
-								div(class="form-group")
-									button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
-									button(type="submit" class="btn btn-primary" id="formSubmit") Save changes
+					form(data-target="#myModal" id="sendMail" method="POST")
+						div(class="modal-body")
+								input(type='hidden', name='action', value='forgottenPassword')
+								div(class="form-group-row input-group")
+									label(for="forgottenEmail" class="col-sm-2 col-form-label") Email:
+									div(class="col-sm-10")
+										input(type="email" name="forgottenEmail" id="forgottenEmail" class="form-control")
+						div(class="modal-footer")
+							div(class="form-group")
+								button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
+								button(type="submit" class="btn btn-primary" id="formSubmit") Send
 
 
 block js

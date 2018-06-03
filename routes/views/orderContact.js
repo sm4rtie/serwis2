@@ -20,13 +20,11 @@ exports = module.exports = function (req, res) {
 		});
 	});
 	view.on('post', { action: 'order' }, function (next) {
-		//var q = Order.model.findOne().where('_id', req.user.id);
 		var newOrderContact = new OrderContact.model();
-		//newOrderContact.set({email: 'res.locals.user.email', name: 'res.locals.user.name.first'});
-		//newOrderContact._req_user = req.user;
+
 		console.log('ordercnt');
 var updater = newOrderContact.getUpdateHandler(req);
-//console.log(req);
+
 		updater.process(req.body, {
 			flashErrors: true,
 			fields: 'message, orderId, from',
@@ -40,7 +38,6 @@ var updater = newOrderContact.getUpdateHandler(req);
 			}
 			next();
 
-			//newOrderContact.save();
 		});
 
 	});

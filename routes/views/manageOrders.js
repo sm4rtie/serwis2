@@ -34,38 +34,6 @@ exports = module.exports = function (req, res) {
 			locals.orders = results;
       User.model.find().where('isEmployee' || 'isAdmin', false).exec(function (err, users) {
         locals.users = users;
-        Order.model.aggregate([
-            { $match: { /* Query can go here, if you want to filter results. */ } }
-          , { $project: { _id: 0, employee: 1 } } /* select the tokens field as something we want to "send" to the next command in the chain */
-          , { $unwind: '$employee' } /* this converts arrays into unique documents for counting */
-          , { $group: { /* execute 'grouping' */
-                  _id: { employee: '$employee' } /* using the 'token' value as the _id */
-                , count: { $sum: 1 } /* create a sum value */
-              }
-            },
-        ])
-        .explain(function(result) {
-          console.log("1" + result);
-        })
-        .then(function (res) {
-          console.log(res); // [ { maxBalance: 98000 } ]
-        });
-      /*  Order.model.aggregate([
-        { $project: { employees: 1 } } ,
-
-        {
-            $group: {
-                _id: '$employee',
-                count: {$sum: 1}
-            }
-        },
-    ], function (err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(result);
-        }
-    });*/
         next(err);
         });
       });
@@ -73,10 +41,8 @@ exports = module.exports = function (req, res) {
 
 
 view.on('post', { action: 'newOrder' }, function (next) {
-  //var q = Order.model.findOne().where('_id', req.user.id);
   var newOrder = new Order.model();
-  //newOrderContact.set({email: 'res.locals.user.email', name: 'res.locals.user.name.first'});
-  //newOrderContact._req_user = req.user;
+
 var updater = newOrder.getUpdateHandler(req);
 console.log(req.body);
   updater.process(req.body, {
@@ -90,7 +56,6 @@ console.log(req.body);
     }
     next();
   });
-  //res.redirect('orders');
 
 });
 

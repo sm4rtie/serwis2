@@ -64,8 +64,6 @@ view.on('post', { action: 'orderUpdate' }, function (next) {
   });
   view.on('post', { action: 'newOrderDetails' }, function (next) {
     var Details = new OrderDetails.model();
-    //newOrderContact.set({email: 'res.locals.user.email', name: 'res.locals.user.name.first'});
-    //newOrderContact._req_user = req.user;
   var updater = Details.getUpdateHandler(req);
     updater.process(req.body, {
       flashErrors: true,
